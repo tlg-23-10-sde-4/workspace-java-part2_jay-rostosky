@@ -9,15 +9,11 @@ class TelevisionClient {
     public static void main(String[] args) {
         // show behavior of == versus equals()
         Television tvA = new Television("Sony", 50);
-        Television tvB = new Television("LG",   52);
+        Television tvB = new Television("Sony", 50);
 
         System.out.println("tvA == tvB: "      + (tvA == tvB));     // obviously false
         System.out.println("tvA.equals(tvB): " + tvA.equals(tvB));  // this is true now
         System.out.println();
-
-        // System.out.println(tvA.hashCode());
-        // System.out.println(tvB.hashCode());
-        // System.out.println();
 
         Set<Television> tvs = new HashSet<>();
         tvs.add(tvA);

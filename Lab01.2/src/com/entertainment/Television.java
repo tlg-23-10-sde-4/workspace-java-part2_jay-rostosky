@@ -45,11 +45,27 @@ public class Television {
         this.volume = volume;
     }
 
+    /*
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+
+        if (obj == null || this.getClass() != obj.getClass()) return false;
+        Television that = (Television) obj;
+
+        return this.getVolume() == that.getVolume() &&
+               Objects.equals(this.getBrand(), that.getBrand());
+    }
+    */
+
     @Override
     public int hashCode() {
         /*
          * This is a poorly written hash function, because it easily yields "hash collisions."
          * A hash collision is when "different" objects have the same hash code (just by coincidence).
+         * Given our poor initial hash function below,
+         *  "Sony" 50  and  "LG" 52  both have hash codes of 54, as does  "Samsung" 47.
+         *  These are "different" objects per the equals() method, but have the same hash code.
          */
         // return getBrand().length() + getVolume();
 
@@ -61,14 +77,16 @@ public class Television {
     public boolean equals(Object obj) {
         boolean result = false;
 
-        // proceed only if 'obj' is really referencing a Television object
-        if (obj instanceof Television) {
-            // safely downcast 'obj' to more specific reference type Television
+        // 'this' (me) and 'obj' refer to the same physical object in memory!
+        if (this == obj) {
+            result = true;  // and we're done, return result (true)
+        }
+        // 'obj' is not-null and my Class object is the same as its Class object, proceed
+        // otherwise, skip this whole thing and return result (false)
+        else if (obj != null && (this.getClass() == obj.getClass())) {
             Television other = (Television) obj;
-
-            // do the checks: business equality is defined by brand, volume being the same
-            result = Objects.equals(this.getBrand(), other.getBrand()) &&  // null-safe check
-                     this.getVolume() == other.getVolume();                // primitives can't be null
+            result = Objects.equals(this.getBrand(), other.getBrand()) &&        // null-safe
+                     this.getVolume() == other.getVolume();       // primitives can't be null
         }
         return result;
     }

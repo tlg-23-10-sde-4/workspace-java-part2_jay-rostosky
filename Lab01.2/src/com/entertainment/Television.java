@@ -2,7 +2,8 @@ package com.entertainment;
 
 import java.util.Objects;
 
-public class Television {
+// Natural order is defined by sort key 'brand' (String)
+public class Television implements Comparable<Television> {
     // instance variables
     private String brand;
     private int volume;
@@ -89,6 +90,12 @@ public class Television {
                      this.getVolume() == other.getVolume();       // primitives can't be null
         }
         return result;
+    }
+
+    // Natural order is defined by sort key 'brand' (String)
+    @Override
+    public int compareTo(Television other) {
+        return this.getBrand().compareTo(other.getBrand());
     }
 
     @Override

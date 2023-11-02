@@ -9,13 +9,57 @@
 package com.math;
 
 import static org.junit.Assert.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class CalculatorTest {
+    // fixture: business object(s) under test
+    private Calculator calc;
 
-  @Test
-  public void testAdd() {
-    Calculator calc = new Calculator();
-    assertEquals(5, calc.add(1, 4));  // expected, actual
-  }
+    @BeforeClass
+    public static void initializeTestRun() {
+        System.out.println("initializeTestRun");
+    }
+
+    @AfterClass
+    public static void finalizeTestRun() {
+        System.out.println("finalizeTestRun");
+    }
+
+    @Before
+    public void setUp() {
+        System.out.println("setUp");
+
+        calc = new Calculator();
+    }
+
+    @After
+    public void tearDown() {
+        System.out.println("tearDown");
+    }
+
+    @Test
+    public void testIsEven() {
+        System.out.println("testIsEven");
+
+        assertTrue(calc.isEven(10));  // passes if the boolean condition evaluates to true
+        assertFalse(calc.isEven(11)); // passes if the boolean condition evaluates to false
+    }
+
+    @Test
+    public void testDivide() {
+        System.out.println("testDivide");
+
+        assertEquals(2.5, calc.divide(5, 2), .001);  // expected, actual, delta
+    }
+
+    @Test
+    public void testAdd() {
+        System.out.println("testAdd");
+
+        assertEquals(5, calc.add(1, 4));  // expected, actual
+    }
 }

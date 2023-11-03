@@ -6,7 +6,7 @@
  * Copyright LearningPatterns Inc.
  */
 
-package com.javatunes.catalog.test;
+package com.javatunes.catalog;
 
 import com.javatunes.catalog.Catalog;
 import com.javatunes.catalog.InMemoryCatalog;
@@ -15,7 +15,7 @@ import com.javatunes.catalog.MusicItem;
 import java.util.Collection;
 import java.util.Map;
 
-class InMemoryCatalogTest {
+class InMemoryCatalogTestMain {
 
     /*
      * One by one, complete each test method below, and then "activate" it by

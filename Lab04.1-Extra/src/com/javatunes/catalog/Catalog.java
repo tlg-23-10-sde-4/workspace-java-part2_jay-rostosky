@@ -30,6 +30,7 @@ public interface Catalog {
 
     /**
      * Returns a collection of items that are of the supplied genre (category).
+     * A no-matches result should return an empty collection (not null).
      */
     public Collection<MusicItem> findByCategory(MusicCategory category);
 

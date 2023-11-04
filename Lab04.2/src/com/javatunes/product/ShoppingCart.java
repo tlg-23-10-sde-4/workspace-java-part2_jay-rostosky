@@ -27,7 +27,6 @@ public class ShoppingCart<T extends Product> {
         for (T item : items) {
             result += item.getPrice();
         }
-
         return result;
     }
 

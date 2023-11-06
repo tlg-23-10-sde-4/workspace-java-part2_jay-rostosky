@@ -41,7 +41,7 @@ public class OrderTest {
     @Test
     public void testProcessCart() {
         Order order1 = new Order("order-1");
-        order1.processCart(productCart);  // this is a ShoppingCart<Product), so WE GOOD
+        order1.processCart(productCart);  // this is a ShoppingCart<Product>, so WE GOOD
         System.out.println();
 
         Order order2 = new Order("order-2");

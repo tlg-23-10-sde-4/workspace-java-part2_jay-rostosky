@@ -13,9 +13,10 @@ import java.util.Collection;
 import java.util.Collections;
 
 /*
- * At runtime, this will really be ShoppingCart<MusicItem>
- * or ShoppingCart<MediaPlayer>,
- * or ShoppingCart<Product> - this one holds both kinds
+ * At runtime, this will really be
+ * ShoppingCart<MusicItem>
+ * ShoppingCart<MediaPlayer>,
+ * ShoppingCart<Product> - this one holds both kinds of Products
  */
 public class ShoppingCart<T extends Product> {
     // storage for the cart's contents, this is a classic HAS-A

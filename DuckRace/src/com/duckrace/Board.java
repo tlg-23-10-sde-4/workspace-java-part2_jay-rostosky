@@ -79,15 +79,29 @@ class Board {
      * --    ----    ----    -------
      *  1    Aaron     1     PRIZES
      *  3    Bullen    1     DEBIT_CARD
-     *  3    CJ        2     DEBIT_CARD, DEBIT_CARD
+     *  4    CJ        2     DEBIT_CARD, DEBIT_CARD
+     * 14    Scott     6     PRIZES, PRIZES, PRIZES, PRIZES, DEBIT_CARD, PRIZES
      */
     public void show() {
-        Collection<DuckRacer> racers = racerMap.values();
+        // title and headings
+        StringBuilder display = new StringBuilder();
+        display.append("\nDuck Race Results\n");
+        display.append("=================\n");
+        display.append("\n");
+        display.append("id    name      wins    rewards\n");
+        display.append("--    ----      ----    -------\n");
 
+        Collection<DuckRacer> racers = racerMap.values();
         for (DuckRacer racer : racers) {
-            System.out.printf("%s   %s    %s    %s\n",
-                    racer.getId(), racer.getName(), racer.getWins(), racer.getRewards());
+            String rewardsString = racer.getRewards().toString();
+            String rewards = rewardsString.substring(1, rewardsString.length() - 1);
+
+            String row = String.format("%2s    %-8s %4s     %s\n",
+                    racer.getId(), racer.getName(), racer.getWins(), rewards);
+            display.append(row);
         }
+        display.append("\n");
+        System.out.println(display);
     }
 
     // TESTING PURPOSES ONLY
@@ -105,7 +119,6 @@ class Board {
             // for each line, split it into "tokens," i.e., "1,Aaron" is split into "1" and "Aaron"
             for (String line : lines) {
                 String[] tokens = line.split(",");  // tokens[0] is "1" and tokens[1] is "Aaron"
-
                 idMap.put(Integer.valueOf(tokens[0]), tokens[1]);
             }
         }

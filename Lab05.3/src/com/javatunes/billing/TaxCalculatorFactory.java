@@ -13,7 +13,13 @@ public class TaxCalculatorFactory {
      * USA              USATax    object
      * EUROPE           EuropeTax object
      */
-    private static final Map<Location,TaxCalculator> calcMap = new HashMap<>();
+    // private static final Map<Location,TaxCalculator> calcMap = new HashMap<>();
+
+    private static final Map<Location,TaxCalculator> calcMap = Map.of(
+            Location.ONLINE, new OnlineTax(),
+            Location.USA,    new USATax(),
+            Location.EUROPE, new EuropeTax()
+    );
 
     // prevent instantiation from outside, this is an all-static class
     private TaxCalculatorFactory() {
@@ -32,6 +38,7 @@ public class TaxCalculatorFactory {
      * It would be a 3-row Map, each row has Location | TaxCalculator
      */
     public static TaxCalculator getTaxCalculator(Location location) {
+        /*
         if (!calcMap.containsKey(location)) {
             switch (location) {
                 case ONLINE:
@@ -44,6 +51,7 @@ public class TaxCalculatorFactory {
                     calcMap.put(location, new EuropeTax());
             }
         }
+        */
         return calcMap.get(location);
     }
 }

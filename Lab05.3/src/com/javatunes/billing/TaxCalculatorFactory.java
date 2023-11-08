@@ -1,6 +1,19 @@
 package com.javatunes.billing;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TaxCalculatorFactory {
+    /*
+     * Cache of previously-created TaxCalculator objects, keyed by Location (initially empty).
+     *
+     * Location         TaxCalculator
+     * --------         -------------
+     * ONLINE           OnlineTax object
+     * USA              USATax    object
+     * EUROPE           EuropeTax object
+     */
+    private static final Map<Location,TaxCalculator> calcMap = new HashMap<>();
 
     // prevent instantiation from outside, this is an all-static class
     private TaxCalculatorFactory() {
@@ -19,18 +32,18 @@ public class TaxCalculatorFactory {
      * It would be a 3-row Map, each row has Location | TaxCalculator
      */
     public static TaxCalculator getTaxCalculator(Location location) {
-        TaxCalculator calc = null;
-
-        switch (location) {
-            case ONLINE:
-                calc = new OnlineTax();
-                break;
-            case USA:
-                calc = new USATax();
-                break;
-            case EUROPE:
-                calc = new EuropeTax();
+        if (!calcMap.containsKey(location)) {
+            switch (location) {
+                case ONLINE:
+                    calcMap.put(location, new OnlineTax());
+                    break;
+                case USA:
+                    calcMap.put(location, new USATax());
+                    break;
+                case EUROPE:
+                    calcMap.put(location, new EuropeTax());
+            }
         }
-        return calc;
+        return calcMap.get(location);
     }
 }

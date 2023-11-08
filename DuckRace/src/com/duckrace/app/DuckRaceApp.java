@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class DuckRaceApp {
     private final Board board = new Board();
+    private final int maxId = board.maxId();
     private final Scanner scanner = new Scanner(System.in);
 
     public void execute() {
@@ -47,11 +48,11 @@ public class DuckRaceApp {
 
         boolean validInput = false;
         while (!validInput) {
-            System.out.print("Please enter id of the winner [1-19]: ");  // TODO: don't hardcode 19
+            System.out.print("Please enter id of the winner [1-" + maxId + "]: ");
             String input = scanner.nextLine().trim();
             if (input.matches("\\d{1,2}")) {
                 id = Integer.parseInt(input);  // it's safe to do this now
-                if (1 <= id && id <= 19) {     // TODO: don't hardcode the 19
+                if (1 <= id && id <= maxId) {
                     validInput = true;
                 }
             }

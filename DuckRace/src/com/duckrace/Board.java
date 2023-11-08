@@ -42,9 +42,13 @@ import java.util.TreeMap;
  *   17       17    Dom        1    DEBIT_CARD
  */
 
-class Board {
+public class Board {
     private final Map<Integer,String> studentIdMap = loadStudentIdMap();
     private final Map<Integer,DuckRacer> racerMap  = new TreeMap<>();
+
+    public int maxId() {
+        return studentIdMap.size();
+    }
 
     /*
      * Updates the board (racerMap) by making a DuckRacer "win."
@@ -58,18 +62,18 @@ class Board {
     public void update(int id, Reward reward) {
         DuckRacer racer = null;
 
-        if (racerMap.containsKey(id)) {  // id present, so fetch DuckRacer next to it, make it "win"
+        if (racerMap.containsKey(id)) {  // id present, so fetch DuckRacer next to it
             racer = racerMap.get(id);
         }
-        else {  // id not present, so here we create new DuckRacer
+        else {                           // id not present, so create new DuckRacer
             racer = new DuckRacer(id, studentIdMap.get(id));
             racerMap.put(id, racer);     // easy to forget this step
         }
-        racer.win(reward);
+        racer.win(reward);               // either way, it needs to "win"
     }
 
     /*
-     * TODO: render the data show it looks like the board you see every day
+     * TODO: render the data so it looks like the board you see every day
      * Consider using a StringBuilder and append() instead of myriad sout calls.
      *
      * Duck Race Results
@@ -91,22 +95,23 @@ class Board {
         display.append("id    name      wins    rewards\n");
         display.append("--    ----      ----    -------\n");
 
-        Collection<DuckRacer> racers = racerMap.values();
-        for (DuckRacer racer : racers) {
-            String rewardsString = racer.getRewards().toString();
-            String rewards = rewardsString.substring(1, rewardsString.length() - 1);
-
-            String row = String.format("%2s    %-8s %4s     %s\n",
-                    racer.getId(), racer.getName(), racer.getWins(), rewards);
-            display.append(row);
+        if (racerMap.isEmpty()) {
+            display.append("\nThere are currently no results to show\n");
         }
+        else {
+            Collection<DuckRacer> racers = racerMap.values();
+            for (DuckRacer racer : racers) {
+                String rewardsString = racer.getRewards().toString();
+                String rewards = rewardsString.substring(1, rewardsString.length() - 1);
+
+                String row = String.format("%2s    %-8s %4s     %s\n",
+                        racer.getId(), racer.getName(), racer.getWins(), rewards);
+                display.append(row);
+            }
+        }
+
         display.append("\n");
         System.out.println(display);
-    }
-
-    // TESTING PURPOSES ONLY
-    void dumpStudentIdMap() {
-        System.out.println(studentIdMap);
     }
 
     private Map<Integer,String> loadStudentIdMap() {

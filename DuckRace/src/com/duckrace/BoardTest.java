@@ -6,7 +6,6 @@ class BoardTest {
 
     public static void main(String[] args) {
         Board board = new Board();
-        // board.dumpStudentIdMap();
 
         board.update(4, DEBIT_CARD);
         board.update(4, DEBIT_CARD);

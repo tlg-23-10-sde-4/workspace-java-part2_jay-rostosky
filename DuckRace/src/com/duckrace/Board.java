@@ -46,10 +46,6 @@ public class Board {
     private final Map<Integer,String> studentIdMap = loadStudentIdMap();
     private final Map<Integer,DuckRacer> racerMap  = new TreeMap<>();
 
-    public int maxId() {
-        return studentIdMap.size();
-    }
-
     /*
      * Updates the board (racerMap) by making a DuckRacer "win."
      *
@@ -72,46 +68,12 @@ public class Board {
         racer.win(reward);               // either way, it needs to "win"
     }
 
-    /*
-     * TODO: render the data so it looks like the board you see every day
-     * Consider using a StringBuilder and append() instead of myriad sout calls.
-     *
-     * Duck Race Results
-     * =================
-     *
-     * id    name    wins    rewards
-     * --    ----    ----    -------
-     *  1    Aaron     1     PRIZES
-     *  3    Bullen    1     DEBIT_CARD
-     *  4    CJ        2     DEBIT_CARD, DEBIT_CARD
-     * 14    Scott     6     PRIZES, PRIZES, PRIZES, PRIZES, DEBIT_CARD, PRIZES
-     */
-    public void show() {
-        // title and headings
-        StringBuilder display = new StringBuilder();
-        display.append("\nDuck Race Results\n");
-        display.append("=================\n");
-        display.append("\n");
-        display.append("id    name      wins    rewards\n");
-        display.append("--    ----      ----    -------\n");
+    public Collection<DuckRacer> duckRacers() {
+        return racerMap.values();
+    }
 
-        if (racerMap.isEmpty()) {
-            display.append("\nThere are currently no results to show\n");
-        }
-        else {
-            Collection<DuckRacer> racers = racerMap.values();
-            for (DuckRacer racer : racers) {
-                String rewardsString = racer.getRewards().toString();
-                String rewards = rewardsString.substring(1, rewardsString.length() - 1);
-
-                String row = String.format("%2s    %-8s %4s     %s\n",
-                        racer.getId(), racer.getName(), racer.getWins(), rewards);
-                display.append(row);
-            }
-        }
-
-        display.append("\n");
-        System.out.println(display);
+    public int maxId() {
+        return studentIdMap.size();
     }
 
     private Map<Integer,String> loadStudentIdMap() {

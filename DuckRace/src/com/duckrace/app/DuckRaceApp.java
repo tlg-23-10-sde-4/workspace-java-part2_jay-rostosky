@@ -2,6 +2,7 @@ package com.duckrace.app;
 
 import com.duckrace.Board;
 import com.duckrace.Reward;
+import com.duckrace.view.BoardView;
 import java.util.Scanner;
 
 /*
@@ -12,8 +13,9 @@ import java.util.Scanner;
  */
 public class DuckRaceApp {
     private final Board board = new Board();
-    private final int maxId = board.maxId();
+    private final BoardView boardView = new BoardView(board);
     private final Scanner scanner = new Scanner(System.in);
+    private final int maxId = board.maxId();
 
     public void execute() {
         welcome();
@@ -61,7 +63,7 @@ public class DuckRaceApp {
     }
 
     private void showBoard() {
-        board.show();
+        boardView.show();
     }
 
     private void welcome() {

@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-class DuckRacer {
+public class DuckRacer {
     private final int id;
     private String name;
     private final Collection<Reward> rewards = new ArrayList<>();

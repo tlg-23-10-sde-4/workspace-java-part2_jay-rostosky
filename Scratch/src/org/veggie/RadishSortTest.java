@@ -48,7 +48,6 @@ class RadishSortTest {
 
         System.out.println("sort by tailLength, via anonymous class");
         radishes.sort(new Comparator<Radish>() {
-
             @Override
             public int compare(Radish r1, Radish r2) {
                 return Double.compare(r1.getTailLength(), r2.getTailLength());

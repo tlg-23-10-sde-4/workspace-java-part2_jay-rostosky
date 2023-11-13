@@ -1,6 +1,11 @@
 package com.duckrace;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
@@ -42,9 +47,38 @@ import java.util.TreeMap;
  *   17       17    Dom        1    DEBIT_CARD
  */
 
-public class Board {
+public class Board implements Serializable {
+    private static final String dataFilePath = "data/board.dat";
+    private static final String studentIdFilePath = "conf/student-ids.csv";
+
+    /*
+     * If data/board.dat exists, read that file into a Board object and return it.
+     * We will use Java's built-in object serialization feature.
+     * Otherwise, return a new Board().
+     */
+    public static Board getInstance() {
+        Board board = null;
+
+        if (Files.exists(Path.of(dataFilePath))) {
+            try (ObjectInputStream in = new ObjectInputStream(new FileInputStream(dataFilePath))) {
+                board = (Board) in.readObject();
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            board = new Board();
+        }
+        return board;
+    }
+
     private final Map<Integer,String> studentIdMap = loadStudentIdMap();
     private final Map<Integer,DuckRacer> racerMap  = new TreeMap<>();
+
+    // prevent instantiation from outside, it's only done in here (in getInstance() method)
+    private Board() {
+    }
 
     /*
      * Updates the board (racerMap) by making a DuckRacer "win."
@@ -66,6 +100,20 @@ public class Board {
             racerMap.put(id, racer);     // easy to forget this step
         }
         racer.win(reward);               // either way, it needs to "win"
+        save();
+    }
+
+    /*
+     * Writes *this* Board object to binary file data/board.dat.
+     * Uses built-in Java object serialization facility.
+     */
+    private void save() {
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(dataFilePath))) {
+            out.writeObject(this);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Collection<DuckRacer> duckRacers() {
@@ -81,7 +129,7 @@ public class Board {
 
         try {
             // read all lines from conf/student-ids.csv into a List<String>
-            List<String> lines = Files.readAllLines(Path.of("conf/student-ids.csv"));
+            List<String> lines = Files.readAllLines(Path.of(studentIdFilePath));
 
             // for each line, split it into "tokens," i.e., "1,Aaron" is split into "1" and "Aaron"
             for (String line : lines) {

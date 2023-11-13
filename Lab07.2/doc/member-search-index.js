@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.fastjava.annotation","c":"Fast","l":"boost()"},{"p":"com.fastjava.annotation","c":"Fast","l":"description()"},{"p":"com.fastjava.annotation","c":"Fast","l":"log()"}]

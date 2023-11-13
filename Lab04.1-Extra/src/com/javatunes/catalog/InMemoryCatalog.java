@@ -14,6 +14,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 // OF COURSE THIS CLASS DOESN'T COMPILE
 // Your first job is to fulfill the contract that this class has signed.
@@ -86,14 +87,9 @@ public class InMemoryCatalog implements Catalog {
 
     @Override
     public Collection<MusicItem> findByCategory(MusicCategory category) {
-        Collection<MusicItem> result = new ArrayList<>();
-
-        for (MusicItem item : catalogData) {
-            if (item.getMusicCategory().equals(category)) {
-                result.add(item);
-            }
-        }
-        return result;
+        return catalogData.stream()
+                .filter(item -> item.getMusicCategory() == category)
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -111,14 +107,9 @@ public class InMemoryCatalog implements Catalog {
      * For example, Madonna's first album is simply titled, "Madonna."
      */
     public Collection<MusicItem> findSelfTitled() {
-        Collection<MusicItem> result = new ArrayList<>();
-
-        for (MusicItem item : catalogData) {
-            if (item.getTitle().equals(item.getArtist())) {  // title same as artist
-                result.add(item);
-            }
-        }
-        return result;
+        return catalogData.stream()
+                .filter(item -> item.getTitle().equals(item.getArtist()))
+                .collect(Collectors.toList());
     }
 
 
@@ -144,7 +135,8 @@ public class InMemoryCatalog implements Catalog {
      * TASK: determine average price of our low-cost, extensive catalog of music.
      */
     public double getAveragePrice() {
-        return 0.0;
+        return catalogData.stream()
+                .collect(Collectors.averagingDouble(MusicItem::getPrice));
     }
 
 

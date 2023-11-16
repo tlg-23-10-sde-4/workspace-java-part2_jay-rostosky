@@ -1,5 +1,6 @@
 package com.duckrace.app;
 
+import com.apps.util.Prompter;
 import com.duckrace.Board;
 import com.duckrace.Reward;
 import com.duckrace.view.BoardView;
@@ -15,13 +16,14 @@ public class DuckRaceApp {
     private final Board board = Board.getInstance();
     private final BoardView boardView = new BoardView(board);
     private final Scanner scanner = new Scanner(System.in);
+    private final Prompter prompter = new Prompter(new Scanner(System.in));
     private final int maxId = board.maxId();
 
     public void execute() {
         welcome();
         showBoard();
         int id = promptForId();
-        Reward reward = promptForReward();
+        Reward reward = promptForReward_Prompter();
         updateBoard(id, reward);
         showBoard();
     }
@@ -30,12 +32,19 @@ public class DuckRaceApp {
         board.update(id, reward);
     }
 
-    private Reward promptForReward() {
+    private Reward promptForReward_Prompter() {
+        String input = prompter.prompt("Please enter [D]ebit card or [P]rizes: ",
+                "\\s*(D|d|P|p)\\s*", "").toUpperCase();
+
+        return ("D".equals(input)) ? Reward.DEBIT_CARD : Reward.PRIZES;
+    }
+
+    private Reward promptForReward_Scanner() {
         Reward reward = null;
 
         boolean validInput = false;
         while (!validInput) {
-            System.out.print("Please [D]ebit card or [P]rizes: ");
+            System.out.print("Please enter [D]ebit card or [P]rizes: ");
             String input = scanner.nextLine().trim().toUpperCase();
             if (input.matches("D|P")) {
                 validInput = true;
